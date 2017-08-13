@@ -110,11 +110,113 @@ class Jobs(Resource):
         logging.info(resp)
         return resp
 
+class Policies(Resource):
+    def post(self, vnfid):
+        logging.info('post policy, vnfid=' + vnfid)
+        param = {
+            'nfvoid': request.form['nfvoid'],
+            'vnfmid': request.form['vnfmid'],
+            'policyId': request.form['policyId'],
+            'policy': request.form['policy'],
+        }
+        logging.info(param)
+        
+        resp = {
+            'policyid': '6'
+        }
+        logging.info(resp)
+        return resp
+    def get(self, vnfid):
+        logging.info('get one, vnfid=' + vnfid)
+        allPolicies = []
+        one = {'policyid':'1', 'policy':'<root/>',  'status':'1'}
+        two = {'policyid':'2', 'policy':'<root/>',  'status':'1'}
+        allPolicies.append(one)
+        allPolicies.append(two)
+        resp = {'policylist': allPolicies}
+        logging.info(resp)
+        return resp
+
+
+class Policies_update(Resource):
+    def put(self, vnfid, policyid):
+        logging.info('put policy, vnfid=' + vnfid + ' policyid=' + policyid)
+        param = {
+            'nfvoid': request.form['nfvoid'],
+            'vnfmid': request.form['vnfmid'],
+            'policy': request.form['policy'],
+        }
+        logging.info(param)
+        return 'ok'
+
+    def delete(self, vnfid, policyid):
+        logging.info('delete policy, vnfid=' + vnfid + ' policyid=' + policyid)
+        return 'delete ok'
+    def get(self, vnfid, policyid):
+
+        logging.info('get policy, vnfid=' + vnfid + ' policyid=' + policyid)
+        resp = {
+            'policy': '<root/>',
+            'status': '1',
+        }
+        logging.info(resp)
+        return resp
+
+class Policies_active_all(Resource):
+    def put(self, vnfid):
+        param = {
+            'nfvoid': request.form['nfvoid'],
+            'vnfmid': request.form['vnfmid'],
+        }
+        logging.info(param)
+        #resp = {
+        #    'nfvoid': '12345678',
+        #    'vnfmid': '123',
+        #}
+        #logging.info(resp)
+        #return resp
+        return 'ok'
+        
+class Policies_active_one(Resource):
+    def put(self, vnfid, policyid):
+        param = {
+            'nfvoid': request.form['nfvoid'],
+            'vnfmid': request.form['vnfmid'],
+        }
+        logging.info(param)
+        return 'ok'
+
+class Policies_deactive_all(Resource):
+    def put(self, vnfid):
+        param = {
+            'nfvoid': request.form['nfvoid'],
+            'vnfmid': request.form['vnfmid'],
+        }
+        logging.info(param)
+        return 'ok'
+
+class Policies_deactive_one(Resource):
+    def put(self, vnfid, policyid):
+        param = {
+            'nfvoid': request.form['nfvoid'],
+            'vnfmid': request.form['vnfmid'],
+        }
+        logging.info(param)
+        return 'ok'
+
 api.add_resource(Vnfs, '/v1/vnfs')
 api.add_resource(Vnfs_one, '/v1/vnfs/<string:vnfid>')
 api.add_resource(Vnfs_scale, '/v1/vnfs/<string:vnfid>/scale')
 api.add_resource(Vnfs_update, '/v1/vnfs/<string:vnfid>/update')
 api.add_resource(Jobs, '/v1/jobs/<string:jobid>')
+
+api.add_resource(Policies, '/v1/vnfs/<string:vnfid>/policies')
+api.add_resource(Policies_update, '/v1/vnfs/<string:vnfid>/policies/<string:policyid>')
+api.add_resource(Policies_active_all, '/v1/vnfs/<string:vnfid>/policies/active')
+api.add_resource(Policies_active_one, '/v1/vnfs/<string:vnfid>/policies/<string:policyid>/active')
+api.add_resource(Policies_deactive_all, '/v1/vnfs/<string:vnfid>/policies/deactive')
+api.add_resource(Policies_deactive_one, '/v1/vnfs/<string:vnfid>/policies/<string:policyid>/deactive')
+
 
 if __name__ == '__main__':
     app.run(debug=True,
